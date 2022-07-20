@@ -1,102 +1,54 @@
 <script setup>
-import HelloWorld from "./components/HelloWorld.vue";
 import TheWelcome from "./components/TheWelcome.vue";
+import Posts from "./Posts.vue";
 </script>
 
 <script>
+const routes = {
+  "/": TheWelcome,
+  "/posts": Posts,
+};
 export default {
   data() {
-    return { posts: [], users: [] };
+    return {
+      currentPath: window.location.hash,
+    };
   },
-  created() {
-    /*fetch("https://jsonplaceholder.typicode.com/todos/1")
-      .then((response) => response.json())
-      .then((json) => console.log(json));*/
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => response.json())
-      .then((json) => {
-        this.posts = json;
-        console.log(this.posts);
-      });
-    /*fetch("https://jsonplaceholder.typicode.com/comments")
-      .then((response) => response.json())
-      .then((json) => console.log(json));*/
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((json) => {
-        this.users = json;
-        console.log(this.users);
-      });
-    /* fetch("https://jsonplaceholder.typicode.com/albums")
-      .then((response) => response.json())
-      .then((json) => console.log(json));
-    fetch("https://jsonplaceholder.typicode.com/photos")
-      .then((response) => response.json())
-      .then((json) => console.log(json));*/
+  computed: {
+    currentView() {
+      return routes[this.currentPath.slice(1) || "/"] || NotFound;
+    },
+  },
+  mounted() {
+    window.addEventListener("hashchange", () => {
+      this.currentPath = window.location.hash;
+    });
   },
 };
 </script>
 
 <template>
-  <main>
-    <div class="post" v-for="post in posts">
-      <div class="post-user">{{ users[post.userId - 1].name }}</div>
-      <div class="post-content">
-        <strong class="post-title">{{ post.title }}</strong>
-        <p class="post-body">{{ post.body }}</p>
-      </div>
-    </div>
-  </main>
-  <!-- <header>
-    <h1>{{ data }}</h1>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="./assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld :msg="data" />
-    </div>
+  <header class="header">
+    <a href="#/">Home</a> | <a href="#/posts">Posts</a>
   </header>
-
-  <main>
-    <TheWelcome />
-  </main> -->
+  <component class="content" :is="currentView" />
 </template>
 
 <style scoped>
-strong {
-  font-weight: bold;
-}
-
-.post {
-  padding: 5px;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  width: 100%;
+  height: 50px;
+  position: fixed;
   border: 1px solid white;
-  margin-bottom: 20px;
-  display: flex;
+  background: black;
+  z-index: 1000;
 }
 
-.post-user {
-  min-width: 100px;
-}
-
-.post-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.post-title {
-  font-size: 30px;
-}
-
-.post-body {
-  font-size: 24px;
-}
-
-@media (min-width: 1024px) {
-  /* laptop specific styling */
+.content {
+  margin-top: 50px;
 }
 </style>
