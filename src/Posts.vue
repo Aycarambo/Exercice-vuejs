@@ -1,13 +1,20 @@
 <script>
+import { notify } from "@kyvg/vue3-notification";
 export default {
   data() {
-    return { posts: [], users: [] };
+    return {
+      posts: [],
+      unfilteredPosts: [],
+      users: [],
+      arePostsFiltered: false,
+    };
   },
   created() {
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then((response) => response.json())
       .then((json) => {
         this.posts = json;
+        this.unfilteredPosts = json;
         console.log(this.posts);
       });
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -17,13 +24,33 @@ export default {
         console.log(this.users);
       });
   },
+  methods: {
+    filterPostsByUser(userId) {
+      if (userId) {
+        notify({ title: `Posts de ${this.users[userId - 1].name} seulement` });
+        this.arePostsFiltered = true;
+        this.posts = this.posts.filter((p) => p.userId === userId);
+      }
+    },
+    unfilterPosts() {
+      this.arePostsFiltered = false;
+      this.posts = this.unfilteredPosts;
+    },
+  },
 };
 </script>
 
 <template>
   <main>
+    <button @click="unfilterPosts" class="reset-button" v-if="arePostsFiltered">
+      Voir tous les posts
+    </button>
     <div class="post" v-for="post in posts">
-      <div class="post-user">{{ users[post.userId - 1].name }}</div>
+      <div class="post-user">
+        <a @click="filterPostsByUser(post.userId)">
+          {{ users[post.userId - 1]?.name || "" }}
+        </a>
+      </div>
       <div class="post-content">
         <strong class="post-title">{{ post.title }}</strong>
         <p class="post-body">{{ post.body }}</p>
@@ -33,6 +60,13 @@ export default {
 </template>
 
 <style scoped>
+.reset-button {
+  cursor: pointer;
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  height: 30px;
+}
 .post {
   padding: 5px;
   border: 1px solid white;
@@ -40,6 +74,9 @@ export default {
   display: flex;
 }
 
+a {
+  cursor: pointer;
+}
 .post-user {
   min-width: 100px;
 }

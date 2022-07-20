@@ -28,6 +28,7 @@ export default {
 </script>
 
 <template>
+  <notifications />
   <header class="header">
     <a href="#/">Home</a> | <a href="#/posts">Posts</a>
   </header>
