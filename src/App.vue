@@ -45,11 +45,14 @@ export default {
   height: 50px;
   position: fixed;
   border: 1px solid white;
-  background: black;
   z-index: 1000;
+  background-color: var(--color-background);
 }
 
 .content {
-  margin-top: 50px;
+  padding-top: 70px;
+  max-width: 1100px;
+  margin-left: 50px;
+  margin-right: 50px;
 }
 </style>

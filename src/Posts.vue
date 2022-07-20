@@ -27,12 +27,25 @@ export default {
   methods: {
     filterPostsByUser(userId) {
       if (userId) {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
+
         notify({ title: `Posts de ${this.users[userId - 1].name} seulement` });
         this.arePostsFiltered = true;
         this.posts = this.posts.filter((p) => p.userId === userId);
       }
     },
     unfilterPosts() {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+
+      notify({ title: `Tous les posts` });
       this.arePostsFiltered = false;
       this.posts = this.unfilteredPosts;
     },
@@ -45,7 +58,7 @@ export default {
     <button @click="unfilterPosts" class="reset-button" v-if="arePostsFiltered">
       Voir tous les posts
     </button>
-    <div class="post" v-for="post in posts">
+    <div class="post" v-for="post in posts" :key="post.id">
       <div class="post-user">
         <a @click="filterPostsByUser(post.userId)">
           {{ users[post.userId - 1]?.name || "" }}
@@ -64,6 +77,7 @@ export default {
   cursor: pointer;
   position: fixed;
   z-index: 1000;
+  top: 50px;
   right: 0;
   height: 30px;
 }

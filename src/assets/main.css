@@ -1,5 +1,11 @@
 @import "./base.css";
 
+#app {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 a,
 .green {
   text-decoration: none;

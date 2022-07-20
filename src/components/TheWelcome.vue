@@ -95,9 +95,3 @@ import SupportIcon from "./icons/IconSupport.vue";
     </WelcomeItem>
   </div>
 </template>
-
-<style>
-.content {
-  margin-top: 25px;
-}
-</style>
