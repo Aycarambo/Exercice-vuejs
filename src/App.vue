@@ -1,7 +1,54 @@
 <script setup>
-import Header from "./components/Header.vue";
+import TheWelcome from "./components/TheWelcome.vue";
+import Posts from "./Posts.vue";
+</script>
+
+<script>
+const routes = {
+  "/": TheWelcome,
+  "/posts": Posts,
+};
+export default {
+  data() {
+    return {
+      currentPath: window.location.hash,
+    };
+  },
+  computed: {
+    currentView() {
+      return routes[this.currentPath.slice(1) || "/"] || NotFound;
+    },
+  },
+  mounted() {
+    window.addEventListener("hashchange", () => {
+      this.currentPath = window.location.hash;
+    });
+  },
+};
 </script>
 
 <template>
-  <Header />
+  <header class="header">
+    <a href="#/">Home</a> | <a href="#/posts">Posts</a>
+  </header>
+  <component class="content" :is="currentView" />
 </template>
+
+<style scoped>
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  border: 1px solid white;
+  background: black;
+  z-index: 1000;
+}
+
+.content {
+  margin-top: 50px;
+}
+</style>
