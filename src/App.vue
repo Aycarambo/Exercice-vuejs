@@ -30,7 +30,7 @@ export default {
 };
 </script>
 
-<template>
+<template v-if="rootElement && rootElement.prop">
   <notifications />
   <header class="header">
     <a
