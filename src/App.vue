@@ -9,9 +9,12 @@ const routes = {
   "/posts": { route: Posts, name: "Posts" },
 };
 export default {
+  data: {
+    currentPath: "",
+  },
   data() {
     return {
-      currentPath: window.location.hash,
+      currentPath: window.location.hash || "",
     };
   },
   computed: {
@@ -21,7 +24,7 @@ export default {
   },
   mounted() {
     window.addEventListener("hashchange", () => {
-      this.currentPath = window.location.hash;
+      this.currentPath = window.location.hash || "";
     });
   },
 };
