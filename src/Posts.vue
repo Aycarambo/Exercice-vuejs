@@ -86,25 +86,34 @@ export default {
   border: 1px solid white;
   margin-bottom: 20px;
   display: flex;
+  background-color: #f2f2f2;
+  border-radius: 25px;
 }
 
 a {
   cursor: pointer;
 }
 .post-user {
+  margin-left: 34px;
+  max-width: 100px;
+  text-align: center;
   min-width: 100px;
+  padding: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .post-content {
+  margin-left: 50px;
+  text-align: left;
   display: flex;
   flex-direction: column;
 }
 
 .post-title {
-  font-size: 30px;
+  font-weight: 700;
 }
 
 .post-body {
-  font-size: 24px;
 }
 </style>
