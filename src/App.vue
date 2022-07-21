@@ -34,7 +34,7 @@ export default {
       v-for="(route, url) in routes"
       :key="route.name"
       class="header-item"
-      :class="{ 'header-item-current': this.currentPath === `#${url}` }"
+      :class="{ 'header-item-current': this?.currentPath === `#${url}` }"
       :href="`#${url}`"
     >
       {{ route.name }}

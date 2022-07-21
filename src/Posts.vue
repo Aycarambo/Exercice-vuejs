@@ -15,13 +15,11 @@ export default {
       .then((json) => {
         this.posts = json;
         this.unfilteredPosts = json;
-        console.log(this.posts);
       });
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
       .then((json) => {
         this.users = json;
-        console.log(this.users);
       });
   },
   methods: {
