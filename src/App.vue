@@ -30,10 +30,10 @@ export default {
 };
 </script>
 
-<template v-if="rootElement && rootElement.prop">
+<template>
   <notifications />
   <header class="header">
-    <a
+    <!-- <a 
       v-for="(route, url) in routes"
       :key="route.name"
       class="header-item"
@@ -41,7 +41,7 @@ export default {
       :href="`#${url}`"
     >
       {{ route.name }}
-    </a>
+    </a> -->
   </header>
   <component class="content" :is="currentView" />
 </template>
