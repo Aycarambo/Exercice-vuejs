@@ -7,6 +7,11 @@ export default {
       unfilteredPosts: [],
       users: [],
       arePostsFiltered: false,
+      maximizedPost: {
+        isAPostSelected: false,
+        post: {},
+        comments: [],
+      },
     };
   },
   created() {
@@ -23,7 +28,22 @@ export default {
       });
   },
   methods: {
-    filterPostsByUser(userId) {
+    selectPost(postId) {
+      this.maximizedPost.isAPostSelected = true;
+      this.maximizedPost.post = this.posts[postId - 1];
+      fetch(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
+        .then((response) => response.json())
+        .then((json) => {
+          this.maximizedPost.comments = json;
+        });
+    },
+    unselectPost() {
+      this.maximizedPost.isAPostSelected = false;
+      this.maximizedPost.post = {};
+      this.maximizedPost.comments = [];
+    },
+    filterPostsByUser(userId, e) {
+      e.preventDefault();
       if (userId) {
         window.scrollTo({
           top: 0,
@@ -47,24 +67,63 @@ export default {
       this.arePostsFiltered = false;
       this.posts = this.unfilteredPosts;
     },
+    showAllPosts() {
+      this.unfilterPosts();
+      this.unselectPost();
+    },
   },
 };
 </script>
 
 <template>
   <main>
-    <button @click="unfilterPosts" class="reset-button" v-if="arePostsFiltered">
+    <button
+      @click="showAllPosts"
+      class="reset-button"
+      v-if="arePostsFiltered || maximizedPost.isAPostSelected"
+    >
       Voir tous les posts
     </button>
-    <div class="post" v-for="post in posts" :key="post.id">
+    <div
+      v-if="!maximizedPost.isAPostSelected"
+      class="post"
+      v-for="post in posts"
+      :key="post.id"
+      @click="selectPost(post.id)"
+    >
       <div class="post-user">
-        <a @click="filterPostsByUser(post.userId)">
+        <a @click.stop="filterPostsByUser(post.userId, $event)">
           {{ users[post.userId - 1]?.name || "" }}
         </a>
       </div>
       <div class="post-content">
         <strong class="post-title">{{ post.title }}</strong>
         <p class="post-body">{{ post.body }}</p>
+      </div>
+    </div>
+
+    <div v-if="maximizedPost.isAPostSelected">
+      <div class="post-maximized">
+        <div class="post-user">
+          <p>
+            {{ users[maximizedPost.post.userId - 1]?.name || "" }}
+          </p>
+        </div>
+        <div class="post-content">
+          <strong class="post-title">{{ maximizedPost.post.title }}</strong>
+          <p class="post-body">{{ maximizedPost.post.body }}</p>
+        </div>
+      </div>
+      <div
+        v-for="comment in maximizedPost.comments"
+        :key="comment.id"
+        class="comment"
+      >
+        ↪
+        <div class="comment-content">
+          <div class="comment-user">{{ comment.email.split("@")[0] }}</div>
+          <div class="comment-body">{{ comment.body }}</div>
+        </div>
       </div>
     </div>
   </main>
@@ -79,6 +138,47 @@ export default {
   right: 0;
   height: 30px;
 }
+
+.post-maximized {
+  padding: 5px;
+  border: 1px solid white;
+  margin-bottom: 20px;
+  display: flex;
+  background-color: #f2f2f2;
+  border-radius: 25px;
+  font-size: 20px;
+}
+
+.comment {
+  display: flex;
+  font-size: 25px;
+  margin-left: 20px;
+}
+.comment-content {
+  padding: 5px;
+  border: 1px solid white;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  display: flex;
+  background-color: #f2f2f2;
+  border-radius: 15px;
+  font-size: 16px;
+}
+
+.comment-user {
+  margin-left: 34px;
+  max-width: 100px;
+  text-align: center;
+  min-width: 100px;
+  padding: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.comment-body {
+  margin-left: 50px;
+  text-align: left;
+}
 .post {
   padding: 5px;
   border: 1px solid white;
@@ -86,6 +186,7 @@ export default {
   display: flex;
   background-color: #f2f2f2;
   border-radius: 25px;
+  cursor: pointer;
 }
 
 a {

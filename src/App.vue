@@ -73,7 +73,7 @@ export default {
 
 .header-item-current {
   font-weight: 800;
-  border-bottom: 1px solid black;
+  border-bottom: 3px solid black;
   padding-bottom: 5px;
 }
 .header-item:hover {
