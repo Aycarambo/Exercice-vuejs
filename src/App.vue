@@ -1,12 +1,14 @@
 <script setup>
 import Home from "./components/TheWelcome.vue";
 import Posts from "./Posts.vue";
+import Todos from "./Todos.vue";
 </script>
 
 <script>
 const routes = {
   "/": { route: Home, name: "Home" },
   "/posts": { route: Posts, name: "Posts" },
+  "/todos": { route: Todos, name: "Todos" },
 };
 export default {
   data: {
@@ -14,7 +16,10 @@ export default {
   },
   data() {
     return {
+      users: [],
       currentPath: window.location.hash || "",
+      currentUser: { signedIn: false, user: {} },
+      showSignInModal: false,
     };
   },
   computed: {
@@ -22,10 +27,31 @@ export default {
       return routes[this.currentPath.slice(1) || "/"].route || NotFound;
     },
   },
+  created() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((json) => {
+        this.users = json;
+      });
+  },
   mounted() {
     window.addEventListener("hashchange", () => {
       this.currentPath = window.location.hash || "";
     });
+  },
+  methods: {
+    signIn(userId) {
+      this.currentUser.signedIn = true;
+      this.currentUser.user = this.users?.[userId - 1];
+      this.showSignInModal = false;
+    },
+    signOut() {
+      this.currentUser.signedIn = false;
+      this.currentUser.user = {};
+      if (this.currentPath === "#/todos") {
+        window.location.hash = "/";
+      }
+    },
   },
 };
 </script>
@@ -33,17 +59,37 @@ export default {
 <template>
   <notifications />
   <header class="header">
+    <span v-for="(route, url) in routes" :key="route.name">
+      <a
+        class="header-item"
+        :class="{ 'header-item-current': currentPath === `#${url}` }"
+        :href="`#${url}`"
+        v-if="url !== '/todos' || currentUser.signedIn"
+      >
+        {{ route.name }}
+      </a>
+    </span>
+    <div v-if="currentUser.signedIn" class="flex-col">
+      <a @click="signOut">Sign out</a>
+      <p>{{ currentUser.user.username }}</p>
+    </div>
     <a
-      v-for="(route, url) in routes"
-      :key="route.name"
-      class="header-item"
-      :class="{ 'header-item-current': currentPath === `#${url}` }"
-      :href="`#${url}`"
+      v-if="!currentUser.signedIn"
+      class="sign-in"
+      @click="showSignInModal = true"
+      >Sign in</a
     >
-      {{ route.name }}
-    </a>
   </header>
-  <component class="content" :is="currentView" />
+  <div v-if="showSignInModal" class="sign-in-modal">
+    <button class="back-button" @click="showSignInModal = false">⤌</button>
+    <h1>Sign in as :</h1>
+    <ul>
+      <li v-for="user in users" :key="user.id" class="user">
+        <a @click="signIn(user.id)">{{ user.username }}</a>
+      </li>
+    </ul>
+  </div>
+  <component class="content" :is="currentView" :user="currentUser.user" />
 </template>
 
 <style scoped>
@@ -51,7 +97,46 @@ export default {
   font-family: "Inter";
   src: local("Inter"), url(./fonts/Inter-V.ttf);
 }
+
+.sign-in-modal {
+  z-index: 99999;
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  background-color: #f2f2f2;
+  border-radius: 25px;
+  border: 1px solid white;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.sign-in-modal ul {
+  list-style-type: none;
+}
+
+.sign-in-modal h1 {
+  margin-top: 5%;
+  margin-bottom: 50px;
+}
+
+.user {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 25px;
+  border: none;
+  background-color: #f2f2f2;
+  font-size: 35px;
+  cursor: pointer;
+}
 .header {
+  display: flex;
+  justify-content: center;
   text-align: center;
   vertical-align: middle;
   font-size: 20px;
@@ -63,6 +148,11 @@ export default {
   border: 1px solid white;
   z-index: 1000;
   background-color: white;
+}
+
+.header p {
+  line-height: 10px;
+  font-size: 14px;
 }
 
 .header-item {

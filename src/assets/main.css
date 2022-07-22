@@ -13,12 +13,22 @@ a,
   transition: 0.4s;
 }
 
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex {
+  display: flex;
+}
+
 strong {
   font-weight: 700;
 }
 
 @media (hover: hover) {
   a:hover {
+    cursor: pointer;
     background-color: hsla(160, 100%, 37%, 0.2);
   }
 }
