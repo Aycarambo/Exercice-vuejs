@@ -51,7 +51,7 @@ export default {
           behavior: "smooth",
         });
 
-        notify({ title: `Posts de ${this.users[userId - 1].name} seulement` });
+        notify({ title: `Posts from ${this.users[userId - 1].name} only` });
         this.arePostsFiltered = true;
         this.posts = this.posts.filter((p) => p.userId === userId);
       }
@@ -63,7 +63,7 @@ export default {
         behavior: "smooth",
       });
 
-      notify({ title: `Tous les posts` });
+      notify({ title: `All posts` });
       this.arePostsFiltered = false;
       this.posts = this.unfilteredPosts;
     },
@@ -82,7 +82,7 @@ export default {
       class="reset-button"
       v-if="arePostsFiltered || maximizedPost.isAPostSelected"
     >
-      Voir tous les posts
+      See all posts
     </button>
     <div
       v-if="!maximizedPost.isAPostSelected"
