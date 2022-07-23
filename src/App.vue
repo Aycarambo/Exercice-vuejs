@@ -98,6 +98,10 @@ export default {
   src: local("Inter"), url(./fonts/Inter-V.ttf);
 }
 
+.sign-in {
+height: 32px;
+}
+
 .sign-in-modal {
   z-index: 99999;
   position: fixed;
