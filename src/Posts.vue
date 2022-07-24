@@ -29,8 +29,9 @@ export default {
   },
   methods: {
     selectPost(postId) {
+      console.log(postId);
       this.maximizedPost.isAPostSelected = true;
-      this.maximizedPost.post = this.posts[postId - 1];
+      this.maximizedPost.post = this.unfilteredPosts[postId - 1];
       fetch(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
         .then((response) => response.json())
         .then((json) => {
