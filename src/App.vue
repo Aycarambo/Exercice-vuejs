@@ -2,12 +2,14 @@
 import Home from "./components/TheWelcome.vue";
 import Posts from "./Posts.vue";
 import Todos from "./Todos.vue";
+import Albums from "./Albums.vue";
 </script>
 
 <script>
 const routes = {
   "/": { route: Home, name: "Home" },
   "/posts": { route: Posts, name: "Posts" },
+  "/albums": { route: Albums, name: "Albums" },
   "/todos": { route: Todos, name: "Todos" },
 };
 export default {
@@ -99,7 +101,7 @@ export default {
 }
 
 .sign-in {
-height: 32px;
+  height: 32px;
 }
 
 .sign-in-modal {

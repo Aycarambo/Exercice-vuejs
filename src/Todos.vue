@@ -35,7 +35,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .todo {
   font-size: large;
 }
