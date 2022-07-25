@@ -59,7 +59,7 @@ export default {
       class="reset-button"
       v-if="maximizedAlbum.isAnAlbumSelected"
     >
-      See all albums
+      ⤌ See all albums
     </button>
     <div v-if="!maximizedAlbum.isAnAlbumSelected">
       <h3>Albums :</h3>
@@ -98,11 +98,10 @@ export default {
 
 .reset-button {
   cursor: pointer;
-  position: fixed;
-  z-index: 1000;
-  top: 50px;
-  right: 0;
   height: 30px;
+  border: none;
+  background-color: white;
+  color: #00bd7e;
 }
 
 .wrapper {

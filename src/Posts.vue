@@ -82,7 +82,7 @@ export default {
       class="reset-button"
       v-if="arePostsFiltered || maximizedPost.isAPostSelected"
     >
-      See all posts
+      ⤌ See all posts
     </button>
     <div
       v-if="!maximizedPost.isAPostSelected"
@@ -132,11 +132,10 @@ export default {
 <style scoped>
 .reset-button {
   cursor: pointer;
-  position: fixed;
-  z-index: 1000;
-  top: 50px;
-  right: 0;
   height: 30px;
+  border: none;
+  background-color: white;
+  color: #00bd7e;
 }
 
 .post-maximized {
