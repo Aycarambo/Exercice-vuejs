@@ -1,5 +1,5 @@
 <script setup>
-import Home from "./components/TheWelcome.vue";
+import Home from "./components/Home.vue";
 import Posts from "./Posts.vue";
 import Todos from "./Todos.vue";
 import Albums from "./Albums.vue";

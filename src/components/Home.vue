@@ -22,6 +22,7 @@ export default {
             You can start by browsing the placeholder <a href="#/posts">Posts</a>
             <p class="helper-text">Pro tip : you can filter posts by author by clicking on an
             author's username.</p>
+            <p>Click a post to see comments.</p>
           </p>
         </li>
         <li>
