@@ -1,97 +1,68 @@
-<script setup>
-import WelcomeItem from "./WelcomeItem.vue";
-import DocumentationIcon from "./icons/IconDocumentation.vue";
-import ToolingIcon from "./icons/IconTooling.vue";
-import EcosystemIcon from "./icons/IconEcosystem.vue";
-import CommunityIcon from "./icons/IconCommunity.vue";
-import SupportIcon from "./icons/IconSupport.vue";
+<script>
+export default {
+  methods:{
+    signIn() {
+      document?.getElementsByClassName("sign-in")?.[0].click()
+    }
+  }
+}
 </script>
 
 <template>
   <div class="content">
-    <WelcomeItem>
-      <template #icon>
-        <DocumentationIcon />
-      </template>
-      <template #heading>Documentation</template>
-
-      Vue’s
-      <a target="_blank" href="https://vuejs.org/">official documentation</a>
-      provides you with all information you need to get started.
-    </WelcomeItem>
-
-    <WelcomeItem>
-      <template #icon>
-        <ToolingIcon />
-      </template>
-      <template #heading>Tooling</template>
-
-      This project is served and bundled with
-      <a href="https://vitejs.dev/guide/features.html" target="_blank">Vite</a>.
-      The recommended IDE setup is
-      <a href="https://code.visualstudio.com/" target="_blank">VSCode</a> +
-      <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a
-      >. If you need to test your components and web pages, check out
-      <a href="https://www.cypress.io/" target="_blank">Cypress</a> and
-      <a href="https://on.cypress.io/component" target="_blank"
-        >Cypress Component Testing</a
-      >.
-
-      <br />
-
-      More instructions are available in <code>README.md</code>.
-    </WelcomeItem>
-
-    <WelcomeItem>
-      <template #icon>
-        <EcosystemIcon />
-      </template>
-      <template #heading>Ecosystem</template>
-
-      Get official tools and libraries for your project:
-      <a target="_blank" href="https://pinia.vuejs.org/">Pinia</a>,
-      <a target="_blank" href="https://router.vuejs.org/">Vue Router</a>,
-      <a target="_blank" href="https://test-utils.vuejs.org/">Vue Test Utils</a
-      >, and
-      <a target="_blank" href="https://github.com/vuejs/devtools"
-        >Vue Dev Tools</a
-      >. If you need more resources, we suggest paying
-      <a target="_blank" href="https://github.com/vuejs/awesome-vue"
-        >Awesome Vue</a
-      >
-      a visit.
-    </WelcomeItem>
-
-    <WelcomeItem>
-      <template #icon>
-        <CommunityIcon />
-      </template>
-      <template #heading>Community</template>
-
-      Got stuck? Ask your question on
-      <a target="_blank" href="https://chat.vuejs.org">Vue Land</a>, our
-      official Discord server, or
-      <a
-        target="_blank"
-        href="https://stackoverflow.com/questions/tagged/vue.js"
-        >StackOverflow</a
-      >. You should also subscribe to
-      <a target="_blank" href="https://news.vuejs.org">our mailing list</a> and
-      follow the official
-      <a target="_blank" href="https://twitter.com/vuejs">@vuejs</a>
-      twitter account for latest news in the Vue world.
-    </WelcomeItem>
-
-    <WelcomeItem>
-      <template #icon>
-        <SupportIcon />
-      </template>
-      <template #heading>Support Vue</template>
-
-      As an independent project, Vue relies on community backing for its
-      sustainability. You can help us by
-      <a target="_blank" href="https://vuejs.org/sponsor/">becoming a sponsor</a
-      >.
-    </WelcomeItem>
+    <h1 class="title">
+      Welcome to this demo website using
+      <a href="https://jsonplaceholder.typicode.com/">{JSON} Placeholder</a>
+    </h1>
+    <div class="flex" >
+      <img class="main-image" src='./../assets/undraw_programming.svg' alt="depiction of a person programming" width='400'/>
+      <ul>
+        <li>
+          <p class="text">
+            You can start by browsing the placeholder <a href="#/posts">Posts</a>
+            <p class="helper-text">Pro tip : you can filter posts by author by clicking on an
+            author's username.</p>
+          </p>
+        </li>
+        <li>
+          <p class="text">
+            You can also look at the pictures in <a href="#/albums">Albums</a>
+            <p class="helper-text">Choose an album, then click on a picture to see it in full size !</p>
+          </p>
+        </li>
+        <li>
+          <p class="text">
+            Don't forget to <a @click="signIn">Sign in</a> by choosing one of the placeholder accounts.
+            <p class="helper-text">Then you will be able access that account's Todo list.</p>
+          </p>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.content{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.main-image{
+  margin-right: 40px;
+}
+
+.text{
+  margin-top: 20px;
+  font-size:24px
+}
+.title{
+  margin-top: 8vh;
+  font-weight: 800;
+  margin-bottom: 8vh;
+}
+
+.helper-text{
+  font-size:16px;
+}
+</style>
